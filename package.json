@@ -1,0 +1,19 @@
+{
+  "name": "documents_api_server",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A backend project following Clean Architecture principles",
+  "main": "infrastructure/server.js",
+  "scripts": {
+    "start": "node infrastructure/server.js",
+    "dev": "watch 'node infrastructure/server.js' infrastructure/"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.1.0",
+    "watch": "^1.0.2"
+  }
+}
