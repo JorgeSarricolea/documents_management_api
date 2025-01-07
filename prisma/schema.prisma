@@ -1,14 +1,58 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Role {
+  role_id String  @id @default(uuid())
+  name    String
+  Users   User[]
+}
+
+model User {
+  user_id    String         @id @default(uuid())
+  first_name String
+  last_name  String
+  email      String         @unique
+  password   String
+  matricula  String?        @unique
+  updated_at DateTime       @updatedAt
+  semester   Int
+  is_tutor   Boolean
+  role_id    String
+  role       Role           @relation(fields: [role_id], references: [role_id])
+  Documents  UserDocument[]
+}
+
+model UserDocument {
+  user_document_id String         @id @default(uuid())
+  path             String
+  uploaded_at      DateTime
+  updated_at       DateTime     @updatedAt
+  document_info_id String
+  user_id          String
+  document_info    DocumentInfo @relation(fields: [document_info_id], references: [document_info_id])
+  user             User         @relation(fields: [user_id], references: [user_id])
+}
+
+model DocumentInfo {
+  document_info_id String         @id @default(uuid())
+  name             String
+  description      String
+  category_id      String
+  category         Category       @relation(fields: [category_id], references: [category_id])
+  UserDocuments    UserDocument[]
+}
+
+model Category {
+  category_id    String         @id @default(uuid())
+  name           String
+  is_for_student Boolean
+  is_for_tutor   Boolean
+  is_required    Boolean
+  DocumentsInfo  DocumentInfo[]
 }
