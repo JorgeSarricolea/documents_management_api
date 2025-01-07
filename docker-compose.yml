@@ -1,15 +1,16 @@
 version: "3.8"
 services:
-  postgres:
-    image: postgres:15
-    container_name: documents_management_db
+  mysql:
+    image: mysql:8.0
+    container_name: documents_management_mysql
     ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 volumes:
-  postgres_data:
+  mysql_data:
