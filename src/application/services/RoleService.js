@@ -12,10 +12,14 @@ class RoleService {
   }
 
   async createRole(data) {
-    if (!data.name) {
-      throw new Error("Role name is required");
+    const name = data.name.toLowerCase();
+
+    const existingRole = await this.roleRepository.findByName(name);
+    if (existingRole) {
+      throw new Error(`A role with the name '${name}' already exists`);
     }
-    return await this.roleRepository.create(data);
+
+    return await this.roleRepository.create({ ...data, name });
   }
 
   async updateRole(role_id, data) {

@@ -31,6 +31,12 @@ class RoleRepository {
       where: { role_id },
     });
   }
+
+  async findByName(name) {
+    return this.database.role.findUnique({
+      where: { name },
+    });
+  }
 }
 
 export default RoleRepository;
