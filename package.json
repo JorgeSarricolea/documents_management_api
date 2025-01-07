@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A backend project following Clean Architecture principles",
-  "main": "infrastructure/server.js",
+  "main": "src/infrastructure/server.js",
   "scripts": {
-    "start": "node infrastructure/server.js",
-    "dev": "watch 'node infrastructure/server.js' infrastructure/"
+    "start": "node src/infrastructure/server.js",
+    "dev": "watch 'node src/infrastructure/server.js' src/infrastructure/"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
