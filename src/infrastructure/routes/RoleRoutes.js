@@ -10,10 +10,10 @@ const roleRepository = new RoleRepository(prisma);
 const roleService = new RoleService(roleRepository);
 const roleController = new RoleController(roleService);
 
-router.get("/roles", (req, res) => roleController.getAllRoles(req, res));
-router.get("/roles/:id", (req, res) => roleController.getRoleById(req, res));
-router.post("/roles", (req, res) => roleController.createRole(req, res));
-router.put("/roles/:id", (req, res) => roleController.updateRole(req, res));
-router.delete("/roles/:id", (req, res) => roleController.deleteRole(req, res));
+router.get("/", (req, res) => roleController.getAllRoles(req, res));
+router.get("/:id", (req, res) => roleController.getRoleById(req, res));
+router.post("/", (req, res) => roleController.createRole(req, res));
+router.put("/:id", (req, res) => roleController.updateRole(req, res));
+router.delete("/:id", (req, res) => roleController.deleteRole(req, res));
 
 export default router;
