@@ -1,10 +1,11 @@
 version: "3.8"
+
 services:
   mysql:
-    image: mysql:8.0
-    container_name: documents_management_mysql
-    ports:
-      - "${MYSQL_PORT}:${MYSQL_PORT}"
+    image: mysql:9.1.0
+    container_name: documents_manager_project
+    networks:
+      - documents_manager
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: ${MYSQL_USER}
@@ -12,5 +13,11 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
       - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+networks:
+  documents_manager:
+    driver: bridge
+
 volumes:
   mysql_data:
