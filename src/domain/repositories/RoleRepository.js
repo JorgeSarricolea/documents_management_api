@@ -34,7 +34,7 @@ class RoleRepository {
 
   async findByName(name) {
     return this.database.role.findUnique({
-      where: { name },
+      where: { name: name.toLowerCase() },
     });
   }
 }
