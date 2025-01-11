@@ -1,13 +1,12 @@
-class AuthService {
-  constructor(userRepository, roleRepository, passwordService, tokenService) {
+class SignupService {
+  constructor(userRepository, roleRepository, passwordService) {
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
     this.passwordService = passwordService;
-    this.tokenService = tokenService;
   }
 
   async signup(userData) {
-    const { email, password, role_id, ...rest } = userData;
+    const { email, password, role, role_id, ...rest } = userData;
 
     const existingUser = await this.userRepository.findByEmail(
       email.toLowerCase()
@@ -16,7 +15,16 @@ class AuthService {
       throw new Error("Email is already in use");
     }
 
-    const assignedRoleId = role_id || (await this.getDefaultRoleId());
+    let assignedRoleId;
+    if (role) {
+      const roleRecord = await this.roleRepository.findByName(role);
+      if (!roleRecord) {
+        throw new Error("Invalid role provided");
+      }
+      assignedRoleId = roleRecord.role_id;
+    } else {
+      assignedRoleId = await this.getDefaultRoleId();
+    }
 
     const hashedPassword = await this.passwordService.hash(password);
 
@@ -28,24 +36,6 @@ class AuthService {
     });
   }
 
-  async login(email, password) {
-    const user = await this.userRepository.findByEmail(email.toLowerCase());
-    if (!user) throw new Error("Invalid email or password");
-
-    const isPasswordValid = await this.passwordService.compare(
-      password,
-      user.password
-    );
-    if (!isPasswordValid) throw new Error("Invalid email or password");
-
-    const token = this.tokenService.generate({
-      userId: user.user_id,
-      roleId: user.role_id,
-    });
-
-    return { user, token };
-  }
-
   async getDefaultRoleId() {
     const userRole = await this.roleRepository.findByName("user");
     if (!userRole)
@@ -54,4 +44,4 @@ class AuthService {
   }
 }
 
-export default AuthService;
+export default SignupService;
