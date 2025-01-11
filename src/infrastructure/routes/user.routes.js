@@ -1,7 +1,7 @@
 import express from "express";
-import UserController from "../../interfaces/controllers/UserController.js";
-import UserService from "../../application/services/UserService.js";
-import UserRepository from "../../domain/repositories/UserRepository.js";
+import UserController from "../../interfaces/controllers/user.controller.js";
+import UserService from "../../application/services/user.service.js";
+import UserRepository from "../../domain/repositories/user.repository.js";
 import prisma from "../../adapters/database/orm/prisma.js";
 
 const router = express.Router();

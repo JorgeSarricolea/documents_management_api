@@ -1,5 +1,5 @@
-import RoleValidator from "../validators/RoleValidator.js";
-import RolePresenter from "../presenters/RolePresenter.js";
+import RoleValidator from "../validators/role.validator.js";
+import RolePresenter from "../presenters/role.presenter.js";
 
 class RoleController {
   constructor(roleService) {

@@ -11,6 +11,13 @@ class UserPresenter {
     };
   }
 
+  static formatWithToken(user, token) {
+    return {
+      user: this.format(user),
+      token,
+    };
+  }
+
   static formatList(users) {
     return users.map(UserPresenter.format);
   }

@@ -1,4 +1,4 @@
-import UserPresenter from "../presenters/UserPresenter.js";
+import UserPresenter from "../presenters/user.presenter.js";
 
 class UserController {
   constructor(userService) {

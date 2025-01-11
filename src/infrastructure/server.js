@@ -1,13 +1,18 @@
 import express from "express";
-import errorHandler from "../interfaces/middlewares/errorHandler.js";
+import dotenv from "dotenv";
+import errorHandler from "../interfaces/middlewares/error.handler.js";
 
-import AuthRoutes from "./routes/AuthRoutes.js";
-import RoleRoutes from "./routes/RoleRoutes.js";
-import UserRoutes from "./routes/UserRoutes.js";
+import AuthRoutes from "./routes/auth.routes.js";
+import RoleRoutes from "./routes/role.routes.js";
+import UserRoutes from "./routes/user.routes.js";
 
 const app = express();
+dotenv.config();
 
 const BASE_URL = "/api/v1";
+
+const HOST = process.env.HOST || "localhost";
+const PORT = process.env.PORT || 8000;
 
 app.use(express.json());
 
@@ -17,7 +22,6 @@ app.use(`${BASE_URL}/users`, UserRoutes);
 
 app.use(errorHandler);
 
-const PORT = 8000;
-app.listen(PORT, () => {
-  console.log("🚀 Server deployed on http://localhost:" + PORT);
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server deployed on http://${HOST}:${PORT}`);
 });
