@@ -1,5 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+
+import corsOptions from "./config/cors.config.js";
 import errorHandler from "../interfaces/middlewares/error.handler.js";
 
 import AuthRoutes from "./routes/auth.routes.js";
@@ -11,6 +14,8 @@ import UserDocumentRoutes from "./routes/userDocument.routes.js";
 
 const app = express();
 dotenv.config();
+
+app.use(cors(corsOptions));
 
 const BASE_URL = "/api/v1";
 
