@@ -31,7 +31,7 @@ model User {
 model UserDocument {
   user_document_id String         @id @default(uuid())
   path             String
-  uploaded_at      DateTime
+  uploaded_at      DateTime     @default(now())
   updated_at       DateTime     @updatedAt
   document_info_id String
   user_id          String
@@ -50,9 +50,10 @@ model DocumentInfo {
 
 model Category {
   category_id    String         @id @default(uuid())
-  name           String
+  name           String         @unique
   is_for_student Boolean
   is_for_tutor   Boolean
   is_required    Boolean
   DocumentsInfo  DocumentInfo[]
 }
+
