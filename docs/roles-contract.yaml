@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: Role API
+  description: API for managing roles.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+paths:
+  /roles:
+    get:
+      summary: Get all roles
+      description: Retrieve a list of all roles in the system.
+      tags:
+        - Roles
+      responses:
+        "200":
+          description: A list of roles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Role"
+        "500":
+          description: Internal server error.
+    post:
+      summary: Create a new role
+      description: Add a new role to the system.
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleInput"
+      responses:
+        "201":
+          description: Role created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          description: Validation error.
+        "500":
+          description: Internal server error.
+  /roles/{id}:
+    get:
+      summary: Get a role by ID
+      description: Retrieve a role using its unique ID.
+      tags:
+        - Roles
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the role.
+      responses:
+        "200":
+          description: Role retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "404":
+          description: Role not found.
+        "500":
+          description: Internal server error.
+    put:
+      summary: Update a role
+      description: Modify the details of an existing role.
+      tags:
+        - Roles
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleInput"
+      responses:
+        "200":
+          description: Role updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          description: Validation error.
+        "404":
+          description: Role not found.
+        "500":
+          description: Internal server error.
+    delete:
+      summary: Delete a role
+      description: Remove a role from the system by its ID.
+      tags:
+        - Roles
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the role.
+      responses:
+        "204":
+          description: Role deleted successfully.
+        "404":
+          description: Role not found.
+        "500":
+          description: Internal server error.
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the role.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          description: The name of the role.
+          example: "admin"
+    RoleInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name of the role.
+          example: "manager"

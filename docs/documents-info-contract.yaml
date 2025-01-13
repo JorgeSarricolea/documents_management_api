@@ -1,0 +1,169 @@
+openapi: 3.0.3
+info:
+  title: DocumentInfo API
+  description: API for managing document information, including creation, retrieval, updating, and deletion.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+paths:
+  /documents-info:
+    get:
+      summary: Get all document information
+      description: Retrieve a list of all document information.
+      tags:
+        - DocumentInfo
+      responses:
+        "200":
+          description: A list of document information.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DocumentInfo"
+        "500":
+          description: Internal server error.
+    post:
+      summary: Create a new document information
+      description: Add a new document information to the system.
+      tags:
+        - DocumentInfo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentInfoInput"
+      responses:
+        "201":
+          description: Document information created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentInfo"
+        "400":
+          description: Validation error.
+        "500":
+          description: Internal server error.
+  /documents-info/{id}:
+    get:
+      summary: Get document information by ID
+      description: Retrieve a specific document information by its unique ID.
+      tags:
+        - DocumentInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the document information.
+      responses:
+        "200":
+          description: Document information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentInfo"
+        "404":
+          description: Document information not found.
+        "500":
+          description: Internal server error.
+    put:
+      summary: Update document information
+      description: Update the details of a specific document information.
+      tags:
+        - DocumentInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the document information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentInfoInput"
+      responses:
+        "200":
+          description: Document information updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentInfo"
+        "400":
+          description: Validation error.
+        "404":
+          description: Document information not found.
+        "500":
+          description: Internal server error.
+    delete:
+      summary: Delete document information
+      description: Remove a specific document information from the system by its unique ID.
+      tags:
+        - DocumentInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the document information.
+      responses:
+        "204":
+          description: Document information deleted successfully.
+        "404":
+          description: Document information not found.
+        "500":
+          description: Internal server error.
+components:
+  schemas:
+    DocumentInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the document information.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          description: The name of the document.
+          example: "Sample Document"
+        description:
+          type: string
+          description: A brief description of the document.
+          example: "This document contains sample data for testing."
+        category_id:
+          type: string
+          description: The ID of the category associated with this document.
+          example: "456e4567-e89b-12d3-a456-426614174001"
+    DocumentInfoInput:
+      type: object
+      required:
+        - name
+        - description
+        - category_id
+      properties:
+        name:
+          type: string
+          description: The name of the document.
+          example: "Sample Document"
+        description:
+          type: string
+          description: A brief description of the document.
+          example: "This document contains sample data for testing."
+        category_id:
+          type: string
+          description: The ID of the category associated with this document.
+          example: "456e4567-e89b-12d3-a456-426614174001"
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message.
+          example: "Document information with ID 123 not found."

@@ -1,0 +1,179 @@
+openapi: 3.0.3
+info:
+  title: UserDocument API
+  description: API for managing user documents, including creation, retrieval, updating, and deletion.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+paths:
+  /user-documents:
+    get:
+      summary: Get all user documents
+      description: Retrieve a list of all user documents.
+      tags:
+        - UserDocuments
+      responses:
+        "200":
+          description: A list of user documents.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDocument"
+        "500":
+          description: Internal server error.
+    post:
+      summary: Create a new user document
+      description: Add a new user document to the system.
+      tags:
+        - UserDocuments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDocumentInput"
+      responses:
+        "201":
+          description: User document created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDocument"
+        "400":
+          description: Validation error.
+        "500":
+          description: Internal server error.
+  /user-documents/{id}:
+    get:
+      summary: Get a user document by ID
+      description: Retrieve a specific user document by its unique ID.
+      tags:
+        - UserDocuments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user document.
+      responses:
+        "200":
+          description: User document retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDocument"
+        "404":
+          description: User document not found.
+        "500":
+          description: Internal server error.
+    put:
+      summary: Update a user document
+      description: Update the details of a specific user document.
+      tags:
+        - UserDocuments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user document.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDocumentInput"
+      responses:
+        "200":
+          description: User document updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDocument"
+        "400":
+          description: Validation error.
+        "404":
+          description: User document not found.
+        "500":
+          description: Internal server error.
+    delete:
+      summary: Delete a user document
+      description: Remove a specific user document from the system by its unique ID.
+      tags:
+        - UserDocuments
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user document.
+      responses:
+        "204":
+          description: User document deleted successfully.
+        "404":
+          description: User document not found.
+        "500":
+          description: Internal server error.
+components:
+  schemas:
+    UserDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user document.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        path:
+          type: string
+          description: The path to the document.
+          example: "documents/sample.pdf"
+        uploaded_at:
+          type: string
+          format: date-time
+          description: The upload date of the document.
+          example: "2025-01-13T12:00:00.000Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: The last update date of the document.
+          example: "2025-01-14T12:00:00.000Z"
+        document_info_id:
+          type: string
+          description: The ID of the related document information.
+          example: "456e4567-e89b-12d3-a456-426614174001"
+        user_id:
+          type: string
+          description: The ID of the user who uploaded the document.
+          example: "789e4567-e89b-12d3-a456-426614174002"
+    UserDocumentInput:
+      type: object
+      required:
+        - path
+        - document_info_id
+        - user_id
+      properties:
+        path:
+          type: string
+          description: The path to the document.
+          example: "documents/sample.pdf"
+        document_info_id:
+          type: string
+          description: The ID of the related document information.
+          example: "456e4567-e89b-12d3-a456-426614174001"
+        user_id:
+          type: string
+          description: The ID of the user who is uploading the document.
+          example: "789e4567-e89b-12d3-a456-426614174002"
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message.
+          example: "User document with ID 123 not found."

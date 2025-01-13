@@ -1,0 +1,163 @@
+openapi: 3.0.3
+info:
+  title: User API
+  description: API for managing users, including retrieval, update, and deletion.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+paths:
+  /users:
+    get:
+      summary: Get all users
+      description: Retrieve a list of all users in the system.
+      tags:
+        - Users
+      responses:
+        "200":
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "500":
+          description: Internal server error.
+  /users/{id}:
+    get:
+      summary: Get a user by ID
+      description: Retrieve a user's details using their unique ID.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user.
+      responses:
+        "200":
+          description: User retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          description: User not found.
+        "500":
+          description: Internal server error.
+    put:
+      summary: Update a user
+      description: Update a user's details.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Validation error.
+        "404":
+          description: User not found.
+        "500":
+          description: Internal server error.
+    delete:
+      summary: Delete a user
+      description: Remove a user from the system using their unique ID.
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique ID of the user.
+      responses:
+        "204":
+          description: User deleted successfully.
+        "404":
+          description: User not found.
+        "500":
+          description: Internal server error.
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user.
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        first_name:
+          type: string
+          description: The user's first name.
+          example: John
+        last_name:
+          type: string
+          description: The user's last name.
+          example: Doe
+        email:
+          type: string
+          description: The user's email address.
+          example: john.doe@example.com
+        semester:
+          type: integer
+          description: The semester the user is currently enrolled in.
+          example: 5
+        is_tutor:
+          type: boolean
+          description: Indicates if the user is a tutor.
+          example: false
+        role_id:
+          type: string
+          description: The ID of the role assigned to the user.
+          example: "role123"
+    UserInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: The user's first name.
+          example: John
+        last_name:
+          type: string
+          description: The user's last name.
+          example: Doe
+        email:
+          type: string
+          description: The user's email address.
+          example: john.doe@example.com
+        semester:
+          type: integer
+          description: The semester the user is currently enrolled in.
+          example: 5
+        is_tutor:
+          type: boolean
+          description: Indicates if the user is a tutor.
+          example: false
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message.
+          example: "User not found"
