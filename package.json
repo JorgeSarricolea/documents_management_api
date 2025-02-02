@@ -8,10 +8,11 @@
     "lint": "eslint .",
     "validate": "pnpm run lint && pnpm run test",
     "start": "node src/infrastructure/server.js",
-    "dev": "watch 'node src/infrastructure/server.js' src/infrastructure/",
+    "dev": "nodemon src/infrastructure/server.js",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --verbose",
     "test:watch": "jest --watch",
-    "db:setup": "docker-compose up -d mysql && pnpm run documents_management_db:migrate:run"
+    "db:setup": "docker-compose up -d mysql && pnpm run prisma:migrate",
+    "prisma:migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
@@ -19,7 +20,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.1.9",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
