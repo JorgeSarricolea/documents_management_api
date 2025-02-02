@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import corsOptions from "./config/cors.config.js";
 import logger from "./config/logger.config.js";
@@ -17,6 +18,7 @@ const app = express();
 dotenv.config();
 
 app.use(cors(corsOptions));
+app.use(cookieParser());
 
 const BASE_URL = "/api/v1";
 

@@ -3,12 +3,15 @@ import RoleController from "../../interfaces/controllers/role.controller.js";
 import RoleService from "../../application/services/role.service.js";
 import RoleRepository from "../../domain/repositories/role.repository.js";
 import prisma from "../../adapters/database/orm/prisma.js";
+import authMiddleware from "../../interfaces/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 const roleRepository = new RoleRepository(prisma);
 const roleService = new RoleService(roleRepository);
 const roleController = new RoleController(roleService);
+
+router.use(authMiddleware);
 
 router.get("/", (req, res) => roleController.getAllRoles(req, res));
 router.get("/:id", (req, res) => roleController.getRoleById(req, res));

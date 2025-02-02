@@ -3,12 +3,15 @@ import DocumentInfoController from "../../interfaces/controllers/documentInfo.co
 import DocumentInfoService from "../../application/services/documentInfo.service.js";
 import DocumentInfoRepository from "../../domain/repositories/documentInfo.repository.js";
 import prisma from "../../adapters/database/orm/prisma.js";
+import authMiddleware from "../../interfaces/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 const documentInfoRepository = new DocumentInfoRepository(prisma);
 const documentInfoService = new DocumentInfoService(documentInfoRepository);
 const documentInfoController = new DocumentInfoController(documentInfoService);
+
+router.use(authMiddleware);
 
 router.get("/", (req, res) =>
   documentInfoController.getAllDocumentInfos(req, res)

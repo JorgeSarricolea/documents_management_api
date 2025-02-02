@@ -3,12 +3,15 @@ import UserDocumentController from "../../interfaces/controllers/userDocument.co
 import UserDocumentService from "../../application/services/userDocument.service.js";
 import UserDocumentRepository from "../../domain/repositories/userDocument.repository.js";
 import prisma from "../../adapters/database/orm/prisma.js";
+import authMiddleware from "../../interfaces/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 const userDocumentRepository = new UserDocumentRepository(prisma);
 const userDocumentService = new UserDocumentService(userDocumentRepository);
 const userDocumentController = new UserDocumentController(userDocumentService);
+
+router.use(authMiddleware);
 
 router.get("/", (req, res) =>
   userDocumentController.getAllUserDocuments(req, res)

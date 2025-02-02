@@ -3,12 +3,15 @@ import CategoryController from "../../interfaces/controllers/category.controller
 import CategoryService from "../../application/services/category.service.js";
 import CategoryRepository from "../../domain/repositories/category.repository.js";
 import prisma from "../../adapters/database/orm/prisma.js";
+import authMiddleware from "../../interfaces/middlewares/auth.middleware.js";
 
 const router = express.Router();
 
 const categoryRepository = new CategoryRepository(prisma);
 const categoryService = new CategoryService(categoryRepository);
 const categoryController = new CategoryController(categoryService);
+
+router.use(authMiddleware);
 
 router.get("/", (req, res) => categoryController.getAllCategories(req, res));
 router.get("/:id", (req, res) => categoryController.getCategoryById(req, res));
