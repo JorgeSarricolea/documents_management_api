@@ -47,11 +47,18 @@ describe("Login Service", () => {
       role_id: 2,
       password: "hashed_password",
     };
+    const mockRes = {
+      cookie: jest.fn(),
+    };
     mockUserRepository.findByEmail.mockResolvedValueOnce(user);
     mockPasswordService.compare.mockResolvedValueOnce(true);
     mockTokenService.generate.mockReturnValueOnce("test_token");
 
-    const result = await loginService.login("test@example.com", "Password123!");
+    const result = await loginService.login(
+      "test@example.com",
+      "Password123!",
+      mockRes
+    );
 
     expect(mockPasswordService.compare).toHaveBeenCalledWith(
       "Password123!",
@@ -61,6 +68,11 @@ describe("Login Service", () => {
       userId: 1,
       roleId: 2,
     });
+    expect(mockRes.cookie).toHaveBeenCalledWith(
+      expect.any(String),
+      "test_token",
+      expect.any(Object)
+    );
     expect(result).toEqual({
       user,
       token: "test_token",
