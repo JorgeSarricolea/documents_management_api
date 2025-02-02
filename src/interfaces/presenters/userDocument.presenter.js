@@ -2,7 +2,10 @@ class UserDocumentPresenter {
   static format(userDocument) {
     return {
       id: userDocument.user_document_id,
-      path: userDocument.path,
+      file: {
+        filename: userDocument.filename,
+        content: userDocument.file_content,
+      },
       uploadedAt: userDocument.uploaded_at,
       updatedAt: userDocument.updated_at,
       documentInfo: userDocument.document_info
