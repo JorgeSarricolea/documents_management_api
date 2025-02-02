@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import corsOptions from "./config/cors.config.js";
+import logger from "./config/logger.config.js";
 import errorHandler from "../interfaces/middlewares/error.handler.js";
 
 import AuthRoutes from "./routes/auth.routes.js";
@@ -34,5 +35,5 @@ app.use(`${BASE_URL}/user-documents`, UserDocumentRoutes);
 app.use(errorHandler);
 
 app.listen(PORT, HOST, () => {
-  console.log(`🚀 Server deployed on http://${HOST}:${PORT}`);
+  logger.info(`🚀 Server deployed on http://${HOST}:${PORT}`);
 });
