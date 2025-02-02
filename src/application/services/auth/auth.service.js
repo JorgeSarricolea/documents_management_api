@@ -28,6 +28,10 @@ class AuthService {
   async getDefaultRoleId() {
     return this.defaultRoleService.getDefaultRole();
   }
+
+  async logout(res) {
+    return this.loginService.logout(res);
+  }
 }
 
 export default AuthService;
